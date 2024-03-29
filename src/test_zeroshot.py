@@ -71,7 +71,7 @@ if __name__ == '__main__':
         y_pred,y_true = model.predict(test_df,input_len,pred_len,batch_size=batch_size)
     
     if pred_len == 720:
-        pred_lens = [96,192,336,720]
+        pred_lens = [24,96,192,336,720] # добавил новый шаг предсказания
     else:
         pred_lens = [24,36,48,60]
     
@@ -80,8 +80,9 @@ if __name__ == '__main__':
     for pred_len in pred_lens:
         mae = np.mean(np.abs(y_pred[:,:pred_len,:]-y_true[:,:pred_len,:]))
         mse = np.mean(np.square(y_pred[:,:pred_len,:]-y_true[:,:pred_len,:]))
-        print('mae', mae)
-        print('mse', mse)
+        print(pred_len) # добавил вывод о дальности прогноза
+        print('mae', mae, 'mse', mse) # свёл в одну строку
+        print('-'*20) #добавил разделитель для лучшей читаемости 
         maes.append(mae)
         mses.append(mse)
     print('mae mean',np.mean(maes))
