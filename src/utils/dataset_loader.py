@@ -116,6 +116,39 @@ def load_electricity_data(fp='../datasets/Electricity/', name='electricity.csv',
     
 
     return train_df,val_df,test_df,signals
+# --- добавил exchange_rate
+def load_exchange_rate(fp='../datasets/Exchange_rate/', name='exchange_rate.csv', context_len=1024, uni=False):
+
+    df = pd.read_csv(fp+name)
+    df,signals = process_datetime(df, date_col='date')  
+
+    
+    #border1s = [0,  18317 - context_len, 18317+2633 - context_len]
+    #border2s = [18317, 18317+2633, 18317+2633+5261]
+    border1s = [0,  5000 - context_len, 5000+1588 - context_len]
+    border2s = [5000, 5000+1588, 5000+1588+1000]
+    
+    train_df = df.loc[:border2s[0],:].reset_index(drop=True)
+    val_df = df.loc[border1s[1]:border2s[1],:].reset_index(drop=True)
+    test_df = df.loc[border1s[2]:,:].reset_index(drop=True)
+    
+   
+    covariates = [str(i) for i in range(320)]    
+    target = 'OT'
+    covariates = ['0',	'1',	'2',	'3',	'4',	'5',	'6'	]
+    cov_sigtype = sigtype.covariate if uni else sigtype.target
+    for name in covariates:
+        if train_df[name].min() != train_df[name].max():
+            signals.append( ContinuousSignal(name, cov_sigtype,
+                                        min_value=train_df[name].min(), max_value=train_df[name].max(),
+                                        mean_value=train_df[name].mean(), std_value=train_df[name].std()) )
+
+    signals.append( ContinuousSignal(target, sigtype.target,
+                                        min_value=train_df[target].min(), max_value=train_df[target].max(),
+                                        mean_value=train_df[target].mean(), std_value=train_df[target].std()) )
+    
+
+    return train_df,val_df,test_df,signals
 
 def load_traffic_data(fp='../datasets/Traffic/', context_len=1024, uni=False):
     z_tr = zipfile.ZipFile(fp+'/traffic.zip', "r")
