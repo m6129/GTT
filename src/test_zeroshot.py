@@ -59,6 +59,8 @@ if __name__ == '__main__':
         _,_,test_df,signals = dataset_loader.load_traffic_data(uni=univar)
     elif data == 'weather':
         _,_,test_df,signals = dataset_loader.load_weather_data(uni=univar)
+    elif data == 'exchange_rate': # добавил exchange_rate
+        _,_,test_df,signals = dataset_loader.load_exchange_rate_data(uni=univar) # добавил exchange_rate
     elif data == 'ill':
         _,_,test_df,signals = dataset_loader.load_illness_data(uni=univar)
         input_len = 128
