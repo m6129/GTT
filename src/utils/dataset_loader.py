@@ -117,7 +117,7 @@ def load_electricity_data(fp='../datasets/Electricity/', name='electricity.csv',
 
     return train_df,val_df,test_df,signals
 # --- добавил exchange_rate
-def load_exchange_rate(fp='../datasets/Exchange_rate/', name='exchange_rate.csv', context_len=1024, uni=False):
+def load_exchange_rate_data(fp='../datasets/Exchange_rate/', name='exchange_rate.csv', context_len=1024, uni=False):
 
     df = pd.read_csv(fp+name)
     df,signals = process_datetime(df, date_col='date')  
