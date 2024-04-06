@@ -62,6 +62,8 @@ if __name__ == '__main__':
         train_df,val_df,test_df,signals = dataset_loader.load_traffic_data()
     elif data == 'weather':
         train_df,val_df,test_df,signals = dataset_loader.load_weather_data()
+    elif data == 'exchange_rate': # добавил exchange_rate
+        _,_,test_df,signals = dataset_loader.load_exchange_rate_data(uni=univar) # добавил exchange_rate
     elif data == 'ill':
         train_df,val_df,test_df,signals = dataset_loader.load_illness_data()
         input_len = 128
@@ -87,7 +89,7 @@ if __name__ == '__main__':
         y_pred,y_true = model.predict_ft(test_df,input_len,pred_len,batch_size=batch_size*4)
     
     if pred_len == 720:
-        pred_lens = [96,192,336,720]
+        pred_lens = [24,96,192,336,720]
     else:
         pred_lens = [24,36,48,60]
     
@@ -96,8 +98,9 @@ if __name__ == '__main__':
     for pred_len in pred_lens:
         mae = np.mean(np.abs(y_pred[:,:pred_len,:]-y_true[:,:pred_len,:]))
         mse = np.mean(np.square(y_pred[:,:pred_len,:]-y_true[:,:pred_len,:]))
-        print('mae', mae)
-        print('mse', mse)
+        print(pred_len) # добавил вывод о дальности прогноза
+        print('mae', mae, 'mse', mse) # свёл в одну строку
+        print('-'*20) #добавил разделитель для лучшей читаемости 
         maes.append(mae)
         mses.append(mse)
     print('mae mean',np.mean(maes))
