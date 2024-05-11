@@ -64,8 +64,20 @@ if __name__ == '__main__':
         train_df,val_df,test_df,signals = dataset_loader.load_weather_data()
     elif data == 'exchange_rate': # добавил exchange_rate
         train_df, val_df, test_df,signals = dataset_loader.load_exchange_rate_data(uni=univar) # добавил exchange_rate
+          #---------------------------------------------------------------добавил de_big-------------------------------------
+    elif data == 'de_big': 
+        _,_,test_df,signals = dataset_loader.load_de_big_data(name='ETTh1.csv',uni=univar)
+    elif data == 'ill':
+        _,_,test_df,signals = dataset_loader.load_illness_data(uni=univar)
+        input_len = 128
+        pred_len = 60
     elif data == 'ill':
         train_df,val_df,test_df,signals = dataset_loader.load_illness_data()
+        input_len = 128
+        pred_len = 60
+           #---------------------------------------------------------------добавил de_small-------------------------------------
+    elif data == 'de_small':
+        _,_,test_df,signals = dataset_loader.load_de_small_data(uni=univar)
         input_len = 128
         pred_len = 60
     
