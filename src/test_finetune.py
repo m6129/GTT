@@ -66,7 +66,7 @@ if __name__ == '__main__':
         train_df, val_df, test_df,signals = dataset_loader.load_exchange_rate_data(uni=univar) # добавил exchange_rate
           #---------------------------------------------------------------добавил de_big-------------------------------------
     elif data == 'de_big': 
-        _,_,test_df,signals = dataset_loader.load_de_big_data(name='ETTh1.csv',uni=univar)
+        _,_,test_df,signals = dataset_loader.load_de_big_data(uni=univar)
     elif data == 'ill':
         _,_,test_df,signals = dataset_loader.load_illness_data(uni=univar)
         input_len = 128
