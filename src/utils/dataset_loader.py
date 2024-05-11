@@ -116,15 +116,12 @@ def load_electricity_data(fp='../datasets/Electricity/', name='electricity.csv',
     
 
     return train_df,val_df,test_df,signals
-# --- добавил exchange_rate
+# ----------------------------------------------------------- добавил exchange_rate--------------------------------------------
 def load_exchange_rate_data(fp='../datasets/Exchange_rate/', name='exchange_rate.csv', context_len=1024, uni=False):
 
     df = pd.read_csv(fp+name)
     df,signals = process_datetime(df, date_col='date')  
 
-    
-    #border1s = [0,  18317 - context_len, 18317+2633 - context_len]
-    #border2s = [18317, 18317+2633, 18317+2633+5261]
     border1s = [0,  5000 - context_len, 5000+1588 - context_len]
     border2s = [5000, 5000+1588, 5000+1588+1000]
     
@@ -132,10 +129,72 @@ def load_exchange_rate_data(fp='../datasets/Exchange_rate/', name='exchange_rate
     val_df = df.loc[border1s[1]:border2s[1],:].reset_index(drop=True)
     test_df = df.loc[border1s[2]:,:].reset_index(drop=True)
     
-   
-    covariates = [str(i) for i in range(320)]    
     target = 'OT'
     covariates = ['0',	'1',	'2',	'3',	'4',	'5',	'6'	]
+    cov_sigtype = sigtype.covariate if uni else sigtype.target
+    for name in covariates:
+        if train_df[name].min() != train_df[name].max():
+            signals.append( ContinuousSignal(name, cov_sigtype,
+                                        min_value=train_df[name].min(), max_value=train_df[name].max(),
+                                        mean_value=train_df[name].mean(), std_value=train_df[name].std()) )
+
+    signals.append( ContinuousSignal(target, sigtype.target,
+                                        min_value=train_df[target].min(), max_value=train_df[target].max(),
+                                        mean_value=train_df[target].mean(), std_value=train_df[target].std()) )
+    
+
+    return train_df,val_df,test_df,signals
+
+
+
+# ----------------------------------------------- добавил de_small -----------------------------------------
+def load_de_small_data(fp='../datasets/Exchange_rate/', name='exchange_rate.csv', context_len=128, uni=False):
+
+    df = pd.read_csv(fp+name)
+    df,signals = process_datetime(df, date_col='date')  
+
+    border1s = [0,  617 - context_len, 617+74 - context_len]
+    border2s = [617, 617+74, 617+74+170]
+    
+    train_df = df.loc[:border2s[0],:].reset_index(drop=True)
+    val_df = df.loc[border1s[1]:border2s[1],:].reset_index(drop=True)
+    test_df = df.loc[border1s[2]:,:].reset_index(drop=True)
+    
+    target = 'OT'
+    covariates = ['DE_50hertz_load_actual_entsoe_transparency',	'DE_amprion_load_actual_entsoe_transparency',	'DE_tennet_load_actual_entsoe_transparency',
+                  'DE_transnetbw_load_actual_entsoe_transparency',	'AT_load_actual_entsoe_transparency',	'NL_load_actual_entsoe_transparency'	]
+    cov_sigtype = sigtype.covariate if uni else sigtype.target
+    for name in covariates:
+        if train_df[name].min() != train_df[name].max():
+            signals.append(ContinuousSignal(name, cov_sigtype,
+                                            min_value=np.float64(train_df[name].min()), max_value=np.float64(train_df[name].max()),
+                                            mean_value=np.float64(train_df[name].mean()), std_value=np.float64(train_df[name].std())))
+
+    signals.append(ContinuousSignal(target, sigtype.target,
+                                    min_value=np.float64(train_df[target].min()), max_value=np.float64(train_df[target].max()),
+                                    mean_value=np.float64(train_df[target].mean()), std_value=np.float64(train_df[target].std())))
+
+    return train_df,val_df,test_df,signals
+
+
+
+# -------------------------------------------- добавил de_big-----------------------------------------------------
+def load_de_big_data(fp='../datasets/Exchange_rate/', name='exchange_rate.csv', context_len=1024, uni=False):
+
+    df = pd.read_csv(fp+name)
+    df,signals = process_datetime(df, date_col='date')  
+
+    border1s = [0, 8545 - context_len, 8545 + 2881 - context_len]
+    border2s = [8545, 8545+2881, 8545 + 2881 + 2881]
+    
+    train_df = df.loc[:border2s[0],:].reset_index(drop=True)
+    val_df = df.loc[border1s[1]:border2s[1],:].reset_index(drop=True)
+    test_df = df.loc[border1s[2]:border2s[2],:].reset_index(drop=True)
+    # train_df,test_df = train_val_split(df,val_ratio=0.2)
+    
+    target = 'OT'
+    covariates = ['DE_50hertz_load_actual_entsoe_transparency',	'DE_amprion_load_actual_entsoe_transparency',	'DE_tennet_load_actual_entsoe_transparency',
+                  'DE_transnetbw_load_actual_entsoe_transparency',	'AT_load_actual_entsoe_transparency',	'NL_load_actual_entsoe_transparency'	]
     cov_sigtype = sigtype.covariate if uni else sigtype.target
     for name in covariates:
         if train_df[name].min() != train_df[name].max():
