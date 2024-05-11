@@ -148,7 +148,7 @@ def load_exchange_rate_data(fp='../datasets/Exchange_rate/', name='exchange_rate
 
 
 # ----------------------------------------------- добавил de_small -----------------------------------------
-def load_de_small_data(fp='../datasets/Exchange_rate/', name='exchange_rate.csv', context_len=128, uni=False):
+def load_de_small_data(fp='../datasets/de_small/', name='de_small.csv', context_len=128, uni=False):
 
     df = pd.read_csv(fp+name)
     df,signals = process_datetime(df, date_col='date')  
@@ -179,7 +179,7 @@ def load_de_small_data(fp='../datasets/Exchange_rate/', name='exchange_rate.csv'
 
 
 # -------------------------------------------- добавил de_big-----------------------------------------------------
-def load_de_big_data(fp='../datasets/Exchange_rate/', name='exchange_rate.csv', context_len=1024, uni=False):
+def load_de_big_data(fp='../datasets/de_big/', name='de_big.csv', context_len=1024, uni=False):
 
     df = pd.read_csv(fp+name)
     df,signals = process_datetime(df, date_col='date')  
