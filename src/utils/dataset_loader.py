@@ -162,7 +162,7 @@ def load_de_small_data(fp='../datasets/de_small/', name='de_small.csv', context_
     
     target = 'OT'
     covariates = ['DE_50hertz_load_actual_entsoe_transparency',	'DE_amprion_load_actual_entsoe_transparency',	'DE_tennet_load_actual_entsoe_transparency',
-                  'DE_transnetbw_load_actual_entsoe_transparency',	'AT_load_actual_entsoe_transparency',	'NL_load_actual_entsoe_transparency'	]
+                  'DE_transnetbw_load_actual_entsoe_transparency',	'AT_load_actual_entsoe_transparency',	'NL_load_actual_entsoe_transparency']
     cov_sigtype = sigtype.covariate if uni else sigtype.target
     for name in covariates:
         if train_df[name].min() != train_df[name].max():
@@ -190,11 +190,10 @@ def load_de_big_data(fp='../datasets/de_big/', name='de_big.csv', context_len=10
     train_df = df.loc[:border2s[0],:].reset_index(drop=True)
     val_df = df.loc[border1s[1]:border2s[1],:].reset_index(drop=True)
     test_df = df.loc[border1s[2]:border2s[2],:].reset_index(drop=True)
-    # train_df,test_df = train_val_split(df,val_ratio=0.2)
     
     target = 'OT'
     covariates = ['DE_50hertz_load_actual_entsoe_transparency',	'DE_amprion_load_actual_entsoe_transparency',	'DE_tennet_load_actual_entsoe_transparency',
-                  'DE_transnetbw_load_actual_entsoe_transparency',	'AT_load_actual_entsoe_transparency',	'NL_load_actual_entsoe_transparency'	]
+                  'DE_transnetbw_load_actual_entsoe_transparency',	'AT_load_actual_entsoe_transparency',	'NL_load_actual_entsoe_transparency']
     cov_sigtype = sigtype.covariate if uni else sigtype.target
     for name in covariates:
         if train_df[name].min() != train_df[name].max():
