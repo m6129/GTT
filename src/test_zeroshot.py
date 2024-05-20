@@ -66,12 +66,12 @@ if __name__ == '__main__':
         _,_,test_df,signals = dataset_loader.load_de_big_data(uni=univar)
     elif data == 'ill':
         _,_,test_df,signals = dataset_loader.load_illness_data(uni=univar)
-        input_len = 60
+        input_len = 64
         pred_len = 60
          #---------------------------------------------------------------добавил de_small-------------------------------------
     elif data == 'de_small':
         _,_,test_df,signals = dataset_loader.load_de_small_data(uni=univar)
-        input_len = 60
+        input_len = 64
         pred_len = 60
     
     foundation_path= f'../checkpoints/GTT-{mode}'
