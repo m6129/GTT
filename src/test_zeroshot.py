@@ -42,8 +42,8 @@ if __name__ == '__main__':
     from src.utils import dataset_loader
     from src.core.model import GTT
     import tensorflow as tf
-    
-    input_len = 1024
+    #-------------- seq_len almost like a unitime.
+    input_len = 96
     pred_len = 720
     if data == 'h1':
         _,_,test_df,signals = dataset_loader.load_ett_data(name='ETTh1.csv',uni=univar)
@@ -66,12 +66,12 @@ if __name__ == '__main__':
         _,_,test_df,signals = dataset_loader.load_de_big_data(uni=univar)
     elif data == 'ill':
         _,_,test_df,signals = dataset_loader.load_illness_data(uni=univar)
-        input_len = 128
+        input_len = 64
         pred_len = 60
          #---------------------------------------------------------------добавил de_small-------------------------------------
     elif data == 'de_small':
         _,_,test_df,signals = dataset_loader.load_de_small_data(uni=univar)
-        input_len = 128
+        input_len = 64
         pred_len = 60
     
     foundation_path= f'../checkpoints/GTT-{mode}'
